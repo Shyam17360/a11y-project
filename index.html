@@ -7,5 +7,11 @@
   <body>
     <div id="root"></div>
     <script type="module" src="/src/main.tsx"></script>
+    <!--
+      vite-plugin-a11y-devtools (see vite.config.ts) injects two more
+      <script> tags right here at dev-server time — you won't see them in
+      this file, only in the browser's "view source" while `npm run dev`
+      is running. They never appear in a production build.
+    -->
   </body>
 </html>
