@@ -1,10 +1,9 @@
+// Runs the real axe-core engine against jsdom (via jest-environment-jsdom),
+// not a browser — fine here, since these checks only inspect DOM structure
+// and attributes, not layout/rendering (unlike axe-core's built-in rules
+// like color-contrast, which do need a real browser to measure anything).
 import axe from 'axe-core';
 import { customChecks, customRules } from './customRules';
-
-declare const describe: jest.Describe;
-declare const test: jest.It;
-declare const expect: jest.Expect;
-declare const beforeAll: jest.Lifecycle;
 
 beforeAll(() => {
   axe.configure({ checks: customChecks, rules: customRules });
@@ -103,12 +102,3 @@ describe('sas-positive-tabindex', () => {
     expect(results.violations.some((v) => v.id === 'sas-positive-tabindex')).toBe(false);
   });
 });
-
-function beforeAll(arg0: () => void) {
-    throw new Error('Function not implemented.');
-}
-
-
-function expect(arg0: boolean) {
-    throw new Error('Function not implemented.');
-}

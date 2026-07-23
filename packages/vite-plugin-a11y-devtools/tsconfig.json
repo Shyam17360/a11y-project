@@ -1,0 +1,24 @@
+{
+  "compilerOptions": {
+    "target": "ES2020",
+    "lib": ["ES2020", "DOM", "DOM.Iterable"],
+    "module": "ESNext",
+    "moduleResolution": "bundler",
+    "resolveJsonModule": true,
+    // Required because axe-core's types use `export =`, which TS otherwise
+    // won't let you `import axe from 'axe-core'` against — without this,
+    // that import silently resolves to an unusable type and every axe.run()
+    // result downstream loses its types too (see runtime.ts / customRules.test.ts).
+    "esModuleInterop": true,
+    "declaration": true,
+    "outDir": "dist",
+    "skipLibCheck": true,
+    "strict": true
+  },
+  // Compiled into dist/ and consumed by index.ts (Node plugin) and loaded
+  // directly by the browser (client/*.js) — see src/index.ts for how.
+  "include": ["src"],
+  // Tests are type-checked and run by ts-jest directly from source; they
+  // don't need to be part of the package's build output.
+  "exclude": ["src/**/*.test.ts"]
+}

@@ -1,3 +1,12 @@
+// The default rule set this plugin ships with, on top of axe-core's
+// standard ~90 rules. `axe.configure({ checks, rules })` in runtime.ts wires
+// these in; customRules.test.ts exercises the exact same objects directly
+// with axe-core + jsdom, no browser or plugin needed.
+//
+// A "check" is the actual DOM test (does this one element pass or fail);
+// a "rule" says which elements to run a check against (via CSS `selector`)
+// plus the metadata shown in the overlay/report.
+
 export interface CustomCheck {
   id: string;
   evaluate: (node: Element) => boolean;
@@ -186,7 +195,11 @@ export const customRules: CustomRule[] = [
   },
   {
     id: 'sas-icon-only-button-name',
-    selector: 'button:has(svg), button:has(img)',
+    // axe-core's own internal selector matcher (used for custom rule
+    // `selector`s) only supports :not() and :is() — :has() silently fails
+    // to match anything. Match all buttons instead; `evaluate` below already
+    // checks for a missing accessible name regardless of icon presence.
+    selector: 'button',
     tags: ['sas-custom', 'wcag2a', 'wcag412'],
     enabled: true,
     metadata: {
